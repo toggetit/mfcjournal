@@ -1,8 +1,6 @@
 {% load staticfiles %}
 
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+<link href={% static "css/bootstrap-datepicker.css" %} rel="stylesheet">
 
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -90,4 +88,6 @@
 </div>
 	
 <script src={% static "js/newIn.js" %}></script>
-    
+<!-- Bootstrap datepicker + ru locale -->
+<script src={% static "js/bootstrap-datepicker.min.js" %}></script>
+<script src={% static "locales/bootstrap-datepicker.ru.min.js" %}></script>
