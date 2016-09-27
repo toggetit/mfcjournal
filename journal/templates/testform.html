@@ -1,3 +1,9 @@
+{% load staticfiles %}
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
   <h4 class="modal-title">Добавить входящий документ</h4>
@@ -5,7 +11,7 @@
 
 <div class="modal-body">
 
-  <form action="testform/" method="POST">    
+  <form id="addNewIn" action="testform/" method="POST">{% csrf_token %}
     <div class="row">
       <div class="col-lg-4">
 	<div class="form-group">
@@ -23,7 +29,12 @@
       <div class="col-lg-6">
 	<div class="form-group">
 	  <label class="control-label" for="out_num">{{ form.out_num.label }}</label>
-	  {{ form.out_num }}
+	  <div class="input-group date" data-provide="datepicker">
+	    {{ form.out_num }}
+	    <div class="input-group-addon">
+              <span class="glyphicon glyphicon-th"></span>
+	    </div>
+	  </div>
 	</div>
       </div>
       <div class="col-lg-6">
@@ -74,10 +85,9 @@
 </div>
 
 <div class="modal-footer">
-  <input class="btn btn-primary" type="submit" value="Добавить" />
+  <button type="submit" class="btn btn-primary" value="Добавить" form="addNewIn">Добавить</button>
   <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
 </div>
 	
-
-    
+<script src={% static "js/newIn.js" %}></script>
     

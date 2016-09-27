@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Org, Actor, InRecord, OutRecord
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 
 from .forms import NewInForm
 
@@ -31,5 +31,21 @@ def json(request, jsn='in'):
     return JsonResponse( { 'data': data }, safe=False )
 
 def testform(request):
-    form = NewInForm()
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = NewInForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            newRec = InRecord(**form.cleaned_data)
+            newRec.save()
+            # redirect to a new URL:                        
+            return HttpResponseRedirect('/journal')
+        else:
+            print("the form is not valid")
+            # send back items
+            print(form.errors.items())
+    else:
+        form = NewInForm()
+
     return render(request, 'testform.html', { 'form': form })
