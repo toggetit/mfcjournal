@@ -42,10 +42,22 @@ def addnewin(request):
             # redirect to a new URL:                        
             return HttpResponseRedirect('/journal')
         else:
-            print("the form is not valid")
             # send back items
             print(form.errors.items())
     else:
-        form = NewInForm()
+        # Получаем номера документов, приводим их к int и выделяем из них последний
+        # такой геморрой нужен по 2 причинам:
+        # 1. Могут быть номера вида 123/1, 123-1
+        # 2. Таким образом получится резервировать номера        
+        nums = InRecord.objects.all().values_list('rec_num', flat=True)
+        # Улучшить бы это по-питоньи
+        prepared_nums = []
+        for num in nums:
+            try:
+                prepared_nums.append(int(num))
+            except ValueError:
+                continue
+        # Значение по-умолчанию для вх. док 
+        form = NewInForm(initial={'rec_num': max(prepared_nums)+1})
 
     return render(request, 'addnewin.html', { 'form': form })

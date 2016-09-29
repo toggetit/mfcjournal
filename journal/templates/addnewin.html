@@ -10,7 +10,7 @@
 
 <div class="modal-body">
 
-  <form id="addNewIn" action="testform/" method="POST">{% csrf_token %}
+  <form id="addNewIn" action="addnewin/" method="POST">{% csrf_token %}
     <div class="row">
       <div class="col-lg-4">
 	<div class="form-group">
@@ -34,7 +34,7 @@
       <div class="col-lg-6">
 	<div class="form-group">
 	  <label class="control-label" for="out_date">{{ form.out_date.label }}</label>
-	  <div class="input-group date" data-provide="datepicker">
+	  <div class="input-group date" id="dp_outdate" data-provide="datepicker">
 	    {{ form.out_date }}
 	    <div class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
@@ -63,7 +63,7 @@
       <div class="col-md-4">
 	<div class="form-group">	  
 	  <label class="control-label" for="control_date">{{ form.control_date.label }}</label>
-	  <div class="input-group date" data-provide="datepicker">
+	  <div class="input-group date" id="dp_controldate" data-provide="datepicker">
 	    {{ form.control_date }}
 	    <div class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
@@ -80,7 +80,7 @@
       <div class="col-md-4">
 	<div class="form-group">
 	  <label class="control-label" for="action_date">{{ form.action_date.label }}</label>
-	  <div class="input-group date" data-provide="datepicker">
+	  <div class="input-group date" iddata-provide="datepicker">
 	    {{ form.action_date }}
 	    <div class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
