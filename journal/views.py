@@ -30,7 +30,7 @@ def json(request, jsn='in'):
     
     return JsonResponse( { 'data': data }, safe=False )
 
-def testform(request):
+def addnewin(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = NewInForm(request.POST)
@@ -48,4 +48,4 @@ def testform(request):
     else:
         form = NewInForm()
 
-    return render(request, 'testform.html', { 'form': form })
+    return render(request, 'addnewin.html', { 'form': form })

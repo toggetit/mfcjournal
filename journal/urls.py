@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^$', views.journal, name='journal'),
     url(r'json/(?P<jsn>in|out)/$', views.json),
 
-    url(r'testform/$', views.testform),
+    url(r'addnewin/$', views.addnewin),
 ]
