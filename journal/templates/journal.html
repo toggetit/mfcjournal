@@ -84,19 +84,20 @@
     </div>
     
 
+    <script src="{% static 'js/inrecordtable.js' %}"></script>
     <div class="container-fluid">
       <h2 class="text-center">Журнал входящей документации</h2>
-      <table data-toggle="table" data-url="journal/json/in/" data-sort-name="rec_num" data-sort-order="desc">
+      <table data-toggle="table" data-url="journal/json/in/" data-sort-name="rec_num" data-sort-order="desc" data-locale="ru-RU">
 	<thead>
           <tr>
             <th data-field="rec_num" data-sortable="true">№ вх. документа</th>
-            <th data-field="rec_date">Дата</th>
+            <th data-field="rec_date" data-formatter="dateFormatter">Дата регистрации</th>
             <th data-field="rec_org">Корреспондент</th>
 	    <th data-field="out_num">№ исх. корр.</th>
-            <th data-field="out_date">Дата исх. корр.</th>
+            <th data-field="out_date" data-formatter="dateFormatter">Дата исх. корр.</th>
             <th data-field="rec_desc">Краткое содержание</th>
-	    <th data-field="rec_actor">Исполнитель</th>
-	    <th data-field="control_date">Дата исполнения</th>
+	    <th data-field="rec_actor" data-formatter="actorFormatter">Исполнитель</th>
+	    <th data-field="control_date" data-formatter="dateFormatter">Дата исполнения</th>
 	    <th data-field="rec_deal">№ дела</th>
 	    <th data-field="action_date">Исполнено</th>
           </tr>

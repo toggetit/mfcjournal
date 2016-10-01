@@ -28,7 +28,7 @@ def json(request, jsn='in'):
     elif jsn == 'out':
         recs = OutRecord.objects.all()
     
-    return JsonResponse( { 'data': data }, safe=False )
+    return JsonResponse( { 'data': data } )
 
 def addnewin(request):
     if request.method == 'POST':
