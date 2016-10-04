@@ -13,16 +13,19 @@ def json(request, jsn='in'):
     if jsn == 'in':
         recs = InRecord.objects.all()
         data = [
-            { 'rec_num': rec.rec_num,
-              'rec_date': rec.rec_date,
-              'rec_org': rec.rec_org.org_name,
-              'out_num': rec.out_num,
-              'out_date': rec.out_date,
-              'rec_desc': rec.rec_desc,
-              'rec_actor': rec.rec_actor.__str__(),
-              'control_date': rec.control_date,
-              'rec_deal': rec.rec_deal,
-              'action_date': rec.action_date }            
+            {
+                'pk' : rec.pk,
+                'rec_num': rec.rec_num,
+                'rec_date': rec.rec_date,
+                'rec_org': rec.rec_org.org_name,
+                'out_num': rec.out_num,
+                'out_date': rec.out_date,
+                'rec_desc': rec.rec_desc,
+                'rec_actor': rec.rec_actor.__str__(),
+                'control_date': rec.control_date,
+                'rec_deal': rec.rec_deal,
+                'action_date': rec.action_date
+            }            
             for rec in recs ]
         
     elif jsn == 'out':

@@ -57,7 +57,7 @@
             <li class="active"><a href="#">Входящие <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Исходящие</a></li>
 	    <button type="button" href="addnewin/" data-toggle="modal" data-target="#addRecModal" class="btn navbar-btn btn-success">Добавить</button>
-	    <button type="button" class="btn navbar-btn btn-danger disabled">Удалить</button>
+	    <button id="deleteButton" type="button" class="btn navbar-btn btn-danger disabled">Удалить</button>
 	  </ul>
 	  
 
@@ -83,13 +83,13 @@
       </div>  
     </div>
     
-
-    <script src="{% static 'js/inrecordtable.js' %}"></script>
+   
     <div class="container-fluid">
       <h2 class="text-center">Журнал входящей документации</h2>
-      <table data-toggle="table" data-url="journal/json/in/" data-sort-name="rec_num" data-sort-order="desc" data-locale="ru-RU">
+      <table id="inRecTable" data-toggle="table" data-url="journal/json/in/" data-sort-name="rec_num" data-sort-order="desc" data-locale="ru-RU">
 	<thead>
           <tr>
+	    <th data-field="pk" data-checkbox="true"></th>
             <th data-field="rec_num" data-sortable="true">№ вх. документа</th>
             <th data-field="rec_date" data-formatter="dateFormatter">Дата регистрации</th>
             <th data-field="rec_org">Корреспондент</th>
@@ -103,6 +103,10 @@
           </tr>
 	</thead>
       </table>
+      <script src="{% static 'js/inrecordtable.js' %}"></script>
+      <script>
+	//$('#inRecTable').on('all.bs.table', console.log("yyy"));
+      </script>
     </div>
   </body>
 </html>
