@@ -84,3 +84,6 @@ $('#inRecTable').bootstrapTable({
     }
 });
 
+$('#deleteButton').on('click', function(event) {
+    console.log($('#inRecTable').bootstrapTable('getSelections'));
+});
