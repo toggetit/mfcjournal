@@ -53,14 +53,19 @@ def addnewin(request):
         # 1. Могут быть номера вида 123/1, 123-1
         # 2. Таким образом получится резервировать номера        
         nums = InRecord.objects.all().values_list('rec_num', flat=True)
-        # Улучшить бы это по-питоньи
-        prepared_nums = []
-        for num in nums:
-            try:
-                prepared_nums.append(int(num))
-            except ValueError:
-                continue
+    
+        if len(nums) == 0:
+            nextNumRec = 1
+        else:
+            # Улучшить бы это по-питоньи
+            prepared_nums = []
+            for num in nums:
+                try:
+                    prepared_nums.append(int(num))
+                except ValueError:
+                    continue
+            nextNumRec = max(prepared_nums)+1
         # Значение по-умолчанию для вх. док 
-        form = NewInForm(initial={'rec_num': max(prepared_nums)+1})
+        form = NewInForm(initial = {'rec_num': nextNumRec })
 
     return render(request, 'addnewin.html', { 'form': form })

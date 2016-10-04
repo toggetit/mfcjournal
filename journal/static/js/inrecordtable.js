@@ -72,18 +72,13 @@ $('#inRecTable').bootstrapTable({
 	$('#deleteButton').removeClass('disabled');
     },
     onCheck: function(row, $element) {
-	/*
-	if ( $('#deleteButton').hasClass('disabled') ){
-	    $('#deleteButton').removeClass('disabled');
-	}
-	*/
-	$('#deleteButton').prop('disabled',$('input.checkbox:checked').length == 0);
+	$('#deleteButton').removeClass('disabled');
     },
     onUncheckAll: function (rows) {
 	$('#deleteButton').addClass('disabled');
     },
     onUncheck: function(row, $element) {
-	if ( $('#deleteButton').hasClass('disabled') == false ) {
+	if ( $('#inRecTable').bootstrapTable('getSelections').length == 0 ){
 	    $('#deleteButton').addClass('disabled');
 	}
     }
