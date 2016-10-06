@@ -60,8 +60,8 @@ $('#deleteButton').on('click', function(event) {
     var pks = arr.map(function(item) {
 	return item.pk;
     });
-    console.log(pks)
-    var jsoned = { data: pks };
+    //console.log(pks)
+    var jsoned = { "data": pks };
     //Достаём csrf токен
     var csrftoken = getCookie('csrftoken');
     $.ajaxSetup({
@@ -75,16 +75,18 @@ $('#deleteButton').on('click', function(event) {
 	type: "POST",
 	url: "/journal/delrec/in",
 	data: JSON.stringify(jsoned),
-	/*
-	success: function() {
-	    $inRecTable.refresh( { silent: true} );
-	},
-	*/
-	//success: $('#inRecTable').refresh(),
 	dataType: 'json',
+	success: function() {
+	    console.log('before');
+	    $('#inRecTable').bootstrapTable('refresh');
+	    $('#deleteButton').addClass('disabled');
+	    console.log('success fn called');
+	},
+	error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status);
+            console.log(thrownError);
+	}
     });
-    $('#inRecTable').refresh({ silent: true });
-    $('#deleteButton').addClass('disabled');
 });
 
 /*
