@@ -56,7 +56,7 @@
 	  <ul class="nav navbar-nav navbar-left">
             <li class="active"><a href="#">Входящие <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Исходящие</a></li>
-	    <button type="button" href="addnewin/" data-toggle="modal" data-target="#addRecModal" class="btn navbar-btn btn-success">Добавить</button>
+	    <button type="button" href="{% url 'add_new_in' %}" data-toggle="modal" data-target="#addRecModal" class="btn navbar-btn btn-success">Добавить</button>
 	    <button id="deleteButton" type="button" class="btn navbar-btn btn-danger disabled">Удалить</button>
 	  </ul>
 	  
@@ -67,7 +67,7 @@
 	      <div class="input-group">
 		<input type="text" class="form-control" placeholder="Поиск...">
 		<span class="input-group-btn">
-		  <button class="btn btn-default" type="button">Искать</button>
+		  <button id="searchButton" class="btn btn-default" type="button">Искать</button>
 		</span>
 	      </div>
 	    </form>
@@ -105,9 +105,6 @@
 	</thead>
       </table>
       <script src="{% static 'js/inrecordtable.js' %}"></script>
-      <script>
-	//$('#inRecTable').on('all.bs.table', console.log("yyy"));
-      </script>
     </div>
   </body>
 </html>

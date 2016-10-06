@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Org, Actor, InRecord, OutRecord
-from django.http import JsonResponse, HttpResponseRedirect
-
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+import json
 from .forms import NewInForm
 
 # Create your views here.
@@ -9,7 +9,7 @@ def journal(request):
     outRecs = OutRecord.objects.all()
     return render(request, 'journal.html', { 'outRecs': outRecs })
 
-def json(request, jsn='in'):
+def jsonrequest(request, jsn='in'):
     if jsn == 'in':
         recs = InRecord.objects.all()
         data = [
@@ -64,8 +64,16 @@ def addnewin(request):
                     prepared_nums.append(int(num))
                 except ValueError:
                     continue
+            if len(prepared_nums) == 0:
+                prepared_nums.append(0)
             nextNumRec = max(prepared_nums)+1
         # Значение по-умолчанию для вх. док 
         form = NewInForm(initial = {'rec_num': nextNumRec })
 
     return render(request, 'addnewin.html', { 'form': form })
+
+def delrec(request, typerec='in'):
+    pks = json.loads(request.body.decode('utf-8'))['data']
+    print('Delete this records', pks)
+    InRecord.objects.filter(pk__in=pks).delete()
+    return HttpResponse('OK')
