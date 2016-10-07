@@ -76,4 +76,4 @@ def delrec(request, typerec='in'):
     pks = json.loads(request.body.decode('utf-8'))['data']
     print('Delete this records', pks)
     InRecord.objects.filter(pk__in=pks).delete()
-    return HttpResponse('OK')
+    return HttpResponse('null')

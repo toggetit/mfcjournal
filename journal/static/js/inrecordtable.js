@@ -15,6 +15,11 @@ function actorFormatter(value) {
     return value;
 }
 
+function refreshPageData() {
+    $('#inRecTable').bootstrapTable('refresh');
+    $('#deleteButton').addClass('disabled');
+}
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -61,7 +66,8 @@ $('#deleteButton').on('click', function(event) {
 	return item.pk;
     });
     //console.log(pks)
-    var jsoned = { "data": pks };
+    var jsoned = { data: pks };
+    var jsondata = JSON.stringify(jsoned);
     //Достаём csrf токен
     var csrftoken = getCookie('csrftoken');
     $.ajaxSetup({
@@ -74,31 +80,12 @@ $('#deleteButton').on('click', function(event) {
     $.ajax({
 	type: "POST",
 	url: "/journal/delrec/in",
-	data: JSON.stringify(jsoned),
+	data: jsondata,
 	dataType: 'json',
-	success: function() {
-	    console.log('before');
-	    $('#inRecTable').bootstrapTable('refresh');
-	    $('#deleteButton').addClass('disabled');
-	    console.log('success fn called');
-	},
+	success: refreshPageData,
 	error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr.status);
             console.log(thrownError);
 	}
     });
 });
-
-/*
-$('#searchButton').on('click', function(event) {
-    var $table = $('#inRecTable');
-    $(function () {
-	$('#searchButton').click(function () {
-            $table.bootstrapTable('refresh', {
-                silent: true
-            });
-	    console.log('refreshed');
-	});
-    });
-});
-*/
