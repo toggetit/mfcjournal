@@ -42,8 +42,9 @@ def addnewin(request):
             # process the data in form.cleaned_data as required
             newRec = InRecord(**form.cleaned_data)
             newRec.save()
-            # redirect to a new URL:                        
-            return HttpResponseRedirect('/journal')
+            # redirect to a new URL:
+            #return HttpResponse('OK')
+            return HttpResponseRedirect('/journal')        
         else:
             # send back items
             print(form.errors.items())
@@ -68,9 +69,9 @@ def addnewin(request):
                 prepared_nums.append(0)
             nextNumRec = max(prepared_nums)+1
         # Значение по-умолчанию для вх. док 
-        form = NewInForm(initial = {'rec_num': nextNumRec })
+        form = NewInForm(initial = {'rec_num': nextNumRec } )
 
-    return render(request, 'addnewin.html', { 'form': form })
+    return render(request, 'addnewin.html', { 'form': form, 'prepared_nums': prepared_nums })
 
 def delrec(request, typerec='in'):
     pks = json.loads(request.body.decode('utf-8'))['data']
