@@ -14,9 +14,13 @@
     {% csrf_token %}
     <div class="row">
       <div class="col-lg-4">
-	<div class="form-group">
+	<div class="form-group has-feedback" id="rec_num_grp">	  
 	  <label class="control-label" for="rec_num">{{ form.rec_num.label }}</label>
-	  {{ form.rec_num }}
+	  <div class = "input-group">
+	    <span class = "input-group-addon">{% now "y" %}/</span>
+	    {{ form.rec_num }}
+	  </div>
+	  <span class="glyphicon form-control-feedback"></span>
 	</div>
       </div>
       <div class="col-lg-8">
@@ -95,7 +99,7 @@
 </div>
 
 <div class="modal-footer">
-  <button type="submit" class="btn btn-primary" value="Добавить" form="addNewIn">Добавить</button>
+  <button id="submitBtn" type="submit" class="btn btn-primary" value="Добавить" form="addNewIn">Добавить</button>
   <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
 </div>
 	
@@ -108,3 +112,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.ru.min.js"></script>
 -->
 <script src={% static "js/newIn.js" %}></script>
+<!-- грязный хак, но я пока не знаю как сделать лучше -->
+<script>
+  var numarray = {{ nums }};
+  console.log(numarray);
+</script>

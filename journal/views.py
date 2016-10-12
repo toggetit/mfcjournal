@@ -3,6 +3,7 @@ from .models import Org, Actor, InRecord, OutRecord
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 import json
 from .forms import NewInForm
+from datetime import date
 
 # Create your views here.
 def journal(request):
@@ -39,8 +40,9 @@ def addnewin(request):
         form = NewInForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
+            #Добавляем суффикс года
             newRec = InRecord(**form.cleaned_data)
+            newRec.rec_num = str(date.today().year)[2:] + '/' + newRec.rec_num
             newRec.save()
             # redirect to a new URL:
             #return HttpResponse('OK')
@@ -62,7 +64,7 @@ def addnewin(request):
             prepared_nums = []
             for num in nums:
                 try:
-                    prepared_nums.append(int(num))
+                    prepared_nums.append(int(num[3:]))
                 except ValueError:
                     continue
             if len(prepared_nums) == 0:
@@ -71,7 +73,7 @@ def addnewin(request):
         # Значение по-умолчанию для вх. док 
         form = NewInForm(initial = {'rec_num': nextNumRec } )
 
-    return render(request, 'addnewin.html', { 'form': form, 'prepared_nums': prepared_nums })
+    return render(request, 'addnewin.html', { 'form': form, 'nums': list(nums) })
 
 def delrec(request, typerec='in'):
     pks = json.loads(request.body.decode('utf-8'))['data']
