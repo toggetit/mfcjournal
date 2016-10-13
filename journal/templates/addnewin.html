@@ -14,13 +14,13 @@
     {% csrf_token %}
     <div class="row">
       <div class="col-lg-4">
-	<div class="form-group has-feedback" id="rec_num_grp">	  
+	<div id="rec_num_grp" class="form-group has-feedback" id="rec_num_grp">	  
 	  <label class="control-label" for="rec_num">{{ form.rec_num.label }}</label>
 	  <div class = "input-group">
 	    <span class = "input-group-addon">{% now "y" %}/</span>
 	    {{ form.rec_num }}
 	  </div>
-	  <span class="glyphicon form-control-feedback"></span>
+	  <!-- <span id="rec_num_gicon" class="glyphicon form-control-feedback"></span> -->
 	</div>
       </div>
       <div class="col-lg-8">

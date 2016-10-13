@@ -80,3 +80,13 @@ def delrec(request, typerec='in'):
     print('Delete this records', pks)
     InRecord.objects.filter(pk__in=pks).delete()
     return HttpResponse('null')
+
+def checknum(request, typerec='in'):
+    num = json.loads(request.body.decode('utf-8'))['data']
+    print('received num:', num)
+    if(InRecord.objects.filter(rec_num=num).exists()):
+        print('num exists')
+        return JsonResponse( { 'data' : 'ERROR' } )
+    else:
+        print('num is NOT exists')
+    return JsonResponse( { 'data' : 'OK' } )
