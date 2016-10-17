@@ -1,7 +1,21 @@
 {% load static %}
 
+<!-- bootstrap datepicker css -->
 <link href="{% static 'css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
-<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker3.css" rel="stylesheet"> -->
+<!-- bootstrap select css -->>
+<link href="{% static 'css/bootstrap-select.css' %}" rel="stylesheet">
+<!-- Bootstrap-select + ru locale -->
+<script src={% static "js/bootstrap-select.js" %}></script>
+<script src={% static "locales/bootstrap-select-ru_RU.js" %}></script>
+
+
+<script>  
+  $(document).ready(function() {
+  $('.selectpicker').selectpicker();
+  });
+</script>
+
+
 
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -85,7 +99,7 @@
       <div class="col-md-4">
 	<div class="form-group">
 	  <label class="control-label" for="action_date">{{ form.action_date.label }}</label>
-	  <div class="input-group date" iddata-provide="datepicker">
+	  <div class="input-group date" data-provide="datepicker">
 	    {{ form.action_date }}
 	    <div class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>

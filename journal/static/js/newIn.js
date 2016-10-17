@@ -10,12 +10,13 @@ function changeSubmit(data) {
     if(data.data == "OK") {
 	recNumGroup.addClass('has-success').removeClass('has-error');
 	//glyphicon.addClass('glyphicon-ok').removeClass('glyphicon-remove');
-	submitButton.removeClass('disabled');
+	submitButton.prop('disabled', false);
+	//submitButton.attr('disabled', 'disabled');
     }
     else {
 	recNumGroup.removeClass('has-success').addClass('has-error');
 	//glyphicon.removeClass('glyphicon-ok').addClass('glyphicon-remove');
-	submitButton.addClass('disabled');
+	submitButton.prop('disabled', true);
     }
 }
 
@@ -50,5 +51,6 @@ function checkRecNum() {
 var timer = null;
 $('#id_rec_num').keydown(function(){
     clearTimeout(timer); 
-    timer = setTimeout(checkRecNum, 300);
+    timer = setTimeout(checkRecNum, 250);
 });
+

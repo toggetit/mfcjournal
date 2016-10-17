@@ -17,22 +17,22 @@ function actorFormatter(value) {
 
 function refreshPageData() {
     $('#inRecTable').bootstrapTable('refresh');
-    $('#deleteButton').addClass('disabled');
+    $('#deleteButton').prop('disabled', true);
 }
 
 $('#inRecTable').bootstrapTable({
     onCheckAll: function (rows) {
-	$('#deleteButton').removeClass('disabled');
+	$('#deleteButton').prop('disabled', false);
     },
     onCheck: function(row, $element) {
-	$('#deleteButton').removeClass('disabled');
+	$('#deleteButton').prop('disabled', false);
     },
     onUncheckAll: function (rows) {
-	$('#deleteButton').addClass('disabled');
+	$('#deleteButton').prop('disabled', true);
     },
     onUncheck: function(row, $element) {
 	if ( $('#inRecTable').bootstrapTable('getSelections').length == 0 ){
-	    $('#deleteButton').addClass('disabled');
+	    $('#deleteButton').prop('disabled', true);
 	}
     }
 });
@@ -58,7 +58,7 @@ $('#deleteButton').on('click', function(event) {
     });
     $.ajax({
 	type: "POST",
-	url: "/journal/delrec/in",
+	url: "/journal/delrec/in/",
 	data: jsondata,
 	dataType: 'json',
 	success: refreshPageData,

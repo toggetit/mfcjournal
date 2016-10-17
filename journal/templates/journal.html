@@ -25,7 +25,7 @@
     <!-- Bootstap table data js -->
     <script src={% static "js/bootstrap-table.js" %}></script>
     <!-- Bootstap table data js RUS locale -->
-    <script src={% static "js/bootstrap-table-ru-RU.js" %}></script>
+    <script src={% static "locales/bootstrap-table-ru-RU.js" %}></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -57,7 +57,7 @@
             <li class="active"><a href="#">Входящие <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Исходящие</a></li>
 	    <button type="button" href="{% url 'add_new_in' %}" data-toggle="modal" data-target="#addRecModal" class="btn navbar-btn btn-success">Добавить</button>
-	    <button id="deleteButton" type="button" class="btn navbar-btn btn-danger disabled">Удалить</button>
+	    <button id="deleteButton" type="button" class="btn navbar-btn btn-danger" disabled>Удалить</button>
 	  </ul>
 	  
 
