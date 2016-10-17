@@ -90,3 +90,9 @@ def checknum(request, typerec='in'):
     else:
         print('num is NOT exists')
     return JsonResponse( { 'data' : 'OK' } )
+
+def markdone(request):
+    recs = json.loads(request.body.decode('utf-8'))['data']
+    print('received data:', recs)
+    
+    return JsonResponse( { 'data' : 'OK' } )

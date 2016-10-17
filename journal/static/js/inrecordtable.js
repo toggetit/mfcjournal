@@ -23,16 +23,20 @@ function refreshPageData() {
 $('#inRecTable').bootstrapTable({
     onCheckAll: function (rows) {
 	$('#deleteButton').prop('disabled', false);
+	$('#markDoneButton').prop('disabled', false);
     },
     onCheck: function(row, $element) {
 	$('#deleteButton').prop('disabled', false);
+	$('#markDoneButton').prop('disabled', false);
     },
     onUncheckAll: function (rows) {
 	$('#deleteButton').prop('disabled', true);
+	$('#markDoneButton').prop('disabled', true);
     },
     onUncheck: function(row, $element) {
 	if ( $('#inRecTable').bootstrapTable('getSelections').length == 0 ){
 	    $('#deleteButton').prop('disabled', true);
+	    $('#markDoneButton').prop('disabled', true);
 	}
     }
 });
