@@ -12,4 +12,7 @@ class NewInForm(forms.Form):
     rec_deal = forms.IntegerField(label="№ дела", widget=forms.NumberInput(attrs={'class': 'form-control'}), required=False)
     action_date = forms.DateField(label='Исполнено', widget=forms.DateInput(attrs={'class': 'form-control'}), required=False)
 
-    
+class markDoneForm(forms.Form):
+    rec_actor = forms.ModelChoiceField(queryset=Actor.objects.filter(is_active=True), widget=forms.Select(attrs={'class':'form-control selectpicker'}), empty_label="б/и", label='Исполнитель', required=False)    
+    control_date = forms.DateField(label='Дата исполнения', widget=forms.DateInput(attrs={'class': 'form-control'}), required=False)
+    action_date = forms.DateField(label='Исполнено', widget=forms.DateInput(attrs={'class': 'form-control'}), required=False)

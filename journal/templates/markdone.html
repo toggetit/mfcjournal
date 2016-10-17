@@ -1,0 +1,79 @@
+{% load static %}
+
+<!-- bootstrap datepicker css -->
+<link href="{% static 'css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
+<!-- bootstrap select css -->>
+<link href="{% static 'css/bootstrap-select.css' %}" rel="stylesheet">
+<!-- Bootstrap-select + ru locale -->
+<script src={% static "js/bootstrap-select.js" %}></script>
+<script src={% static "locales/bootstrap-select-ru_RU.js" %}></script>
+
+
+<script>  
+  $(document).ready(function() {
+  $('.selectpicker').selectpicker();
+  });
+</script>
+
+
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal">&times;</button>
+  <h4 class="modal-title">Пометить как выполненные</h4>
+</div>
+
+<div class="modal-body">
+
+  <form id="markDoneForm" action="markdone/" method="POST">
+    {% csrf_token %}
+
+    <div class="row">
+      <div class="col-lg-12">
+	<div class="form-group">
+	  <label class="control-label" for="rec_actor">{{ form.rec_actor.label }}</label>
+	  {{ form.rec_actor }}
+	</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+	<div class="form-group">	  
+	  <label class="control-label" for="control_date">{{ form.control_date.label }}</label>
+	  <div class="input-group date" id="dp_controldate" data-provide="datepicker">
+	    {{ form.control_date }}
+	    <div class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+	    </div>
+	  </div>
+	</div>
+      </div>
+      <div class="col-md-6">
+	<div class="form-group">
+	  <label class="control-label" for="action_date">{{ form.action_date.label }}</label>
+	  <div class="input-group date" data-provide="datepicker">
+	    {{ form.action_date }}
+	    <div class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>	
+
+  </form>  
+</div>
+
+<div class="modal-footer">
+  <button id="submitBtn" type="submit" class="btn btn-primary" value="Выполнить" form="markDoneForm">Выполнить</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+</div>
+	
+
+<!-- Bootstrap datepicker + ru locale -->
+<script src={% static "js/bootstrap-datepicker.min.js" %}></script>
+<script src={% static "locales/bootstrap-datepicker.ru.min.js" %}></script>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.ru.min.js"></script>
+-->

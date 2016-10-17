@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Org, Actor, InRecord, OutRecord
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 import json
-from .forms import NewInForm
+from .forms import NewInForm, markDoneForm
 from datetime import date
 
 # Create your views here.
@@ -92,7 +92,11 @@ def checknum(request, typerec='in'):
     return JsonResponse( { 'data' : 'OK' } )
 
 def markdone(request):
-    recs = json.loads(request.body.decode('utf-8'))['data']
-    print('received data:', recs)
+    if request.method == 'POST':
+        recs = json.loads(request.body.decode('utf-8'))['data']
+        print('received data:', recs)
+        return HttpResponseRedirect('/journal')
+    else:
+        form = markDoneForm()
     
-    return JsonResponse( { 'data' : 'OK' } )
+    return render(request, 'markdone.html', { 'form': form })
