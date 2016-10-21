@@ -52,14 +52,44 @@
 	</div>
 
 	<!-- Collect the nav links, forms, and other content for toggling -->
-	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	<div class="collapse navbar-collapse">
 	  <ul class="nav navbar-nav navbar-left">
             <li class="active"><a href="#">Входящие <span class="sr-only">(current)</span></a></li>
             <li><a href="#">Исходящие</a></li>
+
 	    <button type="button" href="{% url 'add_new_in' %}" data-toggle="modal" data-target="#addRecModal" class="btn navbar-btn btn-success">Добавить</button>
 	    <button id="deleteButton" type="button" class="btn navbar-btn btn-danger" disabled>Удалить</button>
-	    <button id="markDoneButton" href="{% url 'mark_done' %}" data-toggle="modal" data-target="#markDoneModal" type="button" class="btn navbar-btn btn-info" disabled>Исполнить</button>
+	    
+	    <div class="btn-group">
+	      <button id="appointActorBtn" class="btn btn-default navbar-btn dropdown-toggle disabled" data-toggle="dropdown">Отписать <span class="caret"></span></button>
+	      <ul class="dropdown-menu">
+		{% for actor in actors %}
+		<li><a href="javascript:appointActor({{ actor.pk }})">{{ actor }}</a></li>
+		{% endfor %}
+	      </ul>
+	    </div>
+
+	    <button id="markDoneBtn" type="button" class="btn navbar-btn btn-default" disabled>Исполнить</button>
+	    
+
+<!--	    <form>
+	      <div class="dropdown">
+		<button class="btn btn-default navbar-btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		  Dropdown
+		  <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+		  <li><a href="#">Action</a></li>
+		  <li><a href="#">Another action</a></li>
+		  <li><a href="#">Something else here</a></li>
+		  <li role="separator" class="divider"></li>
+		  <li><a href="#">Separated link</a></li>
+		</ul>
+		<button id="markDoneButton" href="{% url 'mark_done' %}" data-toggle="modal" data-target="#markDoneModal" type="button" class="btn navbar-btn btn-default" disabled>Исполнить</button>
+	    </form>
+-->
 	  </ul>
+	  
 	  
 
 	  

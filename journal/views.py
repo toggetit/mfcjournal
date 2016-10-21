@@ -7,8 +7,9 @@ from datetime import date
 
 # Create your views here.
 def journal(request):
-    outRecs = OutRecord.objects.all()
-    return render(request, 'journal.html', { 'outRecs': outRecs })
+    InRecs = InRecord.objects.all()
+    actors = Actor.objects.filter(is_active = True)
+    return render(request, 'journal.html', { 'actors': actors })
 
 def jsonrequest(request, jsn='in'):
     if jsn == 'in':
@@ -91,12 +92,25 @@ def checknum(request, typerec='in'):
         print('num is NOT exists')
     return JsonResponse( { 'data' : 'OK' } )
 
+def appoint(request):
+    if request.method == 'POST':
+        recs = json.loads(request.body.decode('utf-8'))['data']
+        actor = json.loads(request.body.decode('utf-8'))['actor']
+        print('received data:', recs, 'actor', actor)
+        
+        InRecord.objects.filter(pk__in=recs).update(rec_actor=actor)
+        
+        return JsonResponse( { 'data': 'ok' })
+    else:
+        return JsonResponse( { 'data': 'error' })
+    
+
 def markdone(request):
     if request.method == 'POST':
         recs = json.loads(request.body.decode('utf-8'))['data']
         print('received data:', recs)
         return HttpResponseRedirect('/journal')
     else:
-        form = markDoneForm()
+        form = markDoneForm(initial = {'control_date': date.today() })
     
     return render(request, 'markdone.html', { 'form': form })
