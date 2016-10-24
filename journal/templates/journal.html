@@ -69,25 +69,8 @@
 	      </ul>
 	    </div>
 
-	    <button id="markDoneBtn" type="button" class="btn navbar-btn btn-default" disabled>Исполнить</button>
+	    <button id="markDoneBtn" type="button" href="{% url 'mark_done' %}" data-toggle="modal" data-target="#markDoneModal" class="btn navbar-btn btn-default" disabled>Исполнить</button>
 	    
-
-<!--	    <form>
-	      <div class="dropdown">
-		<button class="btn btn-default navbar-btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-		  Dropdown
-		  <span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-		  <li><a href="#">Action</a></li>
-		  <li><a href="#">Another action</a></li>
-		  <li><a href="#">Something else here</a></li>
-		  <li role="separator" class="divider"></li>
-		  <li><a href="#">Separated link</a></li>
-		</ul>
-		<button id="markDoneButton" href="{% url 'mark_done' %}" data-toggle="modal" data-target="#markDoneModal" type="button" class="btn navbar-btn btn-default" disabled>Исполнить</button>
-	    </form>
--->
 	  </ul>
 	  
 	  
