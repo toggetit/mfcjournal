@@ -1,15 +1,20 @@
 $.fn.datepicker.defaults.language = 'ru'
 $.fn.datepicker.defaults.todayHighlight = true
 $.fn.datepicker.defaults.autoclose = true
+$("#id_action_date").datepicker("setDate", new Date());
 
-$("#datepicker").datepicker("setDate", new Date());
+//$("#datepicker").datepicker("setDate", new Date());
 
-function checkRecNum() {
-    
-    yPrefix = new Date().getFullYear().toString().substr(2,2) + '/';
-    var jsoned = { data: yPrefix + $('#id_rec_num').val() };
+$('#markDoneSubmit').on('click', function(event) {
+    event.preventDefault(); // To prevent following the link (optional)
+    console.log('markdone called');
+    arr = $('#inRecTable').bootstrapTable('getSelections');
+    var pks = arr.map(function(item) {
+	return item.pk;
+    });
+    var jsoned = { data: pks, doneDate : $('#id_action_date').datepicker('getDate') };
     var jsondata = JSON.stringify(jsoned);
-    //Достаём csrf токен
+    console.log(jsondata);
     var csrftoken = getCookie('csrftoken');
     $.ajaxSetup({
 	beforeSend: function(xhr, settings) {
@@ -20,13 +25,13 @@ function checkRecNum() {
     });
     $.ajax({
 	type: "POST",
-	url: "/journal/checknum/in/",
+	url: "/journal/markdone/",
 	data: jsondata,
 	dataType: 'json',
-	success: changeSubmit,
+	success: refreshPageData,
 	error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr.status);
             console.log(thrownError);
 	}
     });
-}
+});

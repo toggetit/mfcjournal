@@ -3,7 +3,7 @@ from .models import Org, Actor, InRecord, OutRecord
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 import json
 from .forms import NewInForm, markDoneForm
-from datetime import date
+from datetime import date, datetime
 
 # Create your views here.
 def journal(request):
@@ -108,9 +108,13 @@ def appoint(request):
 def markdone(request):
     if request.method == 'POST':
         recs = json.loads(request.body.decode('utf-8'))['data']
-        print('received data:', recs)
-        return HttpResponseRedirect('/journal')
+        doneDate = datetime.strptime(json.loads(request.body.decode('utf-8'))['doneDate'], '%Y-%m-%dT%H:%M:%sZ')
+        print('received data:', recs, 'done date:', doneDate)
+        
+        InRecord.objects.filter(pk__in=recs).update(action_date = doneDate)
+        
+        return JsonResponse({ 'data': 'ok'})
     else:
-        form = markDoneForm(initial = {'control_date': date.today() })
+        form = markDoneForm()
     
-    return render(request, 'markdone.html', { 'form': form })
+        return render(request, 'markdone.html', { 'form': form })
