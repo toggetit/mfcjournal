@@ -108,7 +108,7 @@ def appoint(request):
 def markdone(request):
     if request.method == 'POST':
         recs = json.loads(request.body.decode('utf-8'))['data']
-        doneDate = datetime.strptime(json.loads(request.body.decode('utf-8'))['doneDate'], '%Y-%m-%dT%H:%M:%sZ')
+        doneDate = datetime.strptime(json.loads(request.body.decode('utf-8'))['doneDate'], '%d.%m.%Y')
         print('received data:', recs, 'done date:', doneDate)
         
         InRecord.objects.filter(pk__in=recs).update(action_date = doneDate)

@@ -12,7 +12,7 @@ $('#markDoneSubmit').on('click', function(event) {
     var pks = arr.map(function(item) {
 	return item.pk;
     });
-    var jsoned = { data: pks, doneDate : $('#id_action_date').datepicker('getDate') };
+    var jsoned = { data: pks, doneDate : $('#id_action_date').val() };
     var jsondata = JSON.stringify(jsoned);
     console.log(jsondata);
     var csrftoken = getCookie('csrftoken');
@@ -28,7 +28,10 @@ $('#markDoneSubmit').on('click', function(event) {
 	url: "/journal/markdone/",
 	data: jsondata,
 	dataType: 'json',
-	success: refreshPageData,
+	success: function() {
+	    $('#markDoneModal').modal('hide');
+	    refreshPageData();
+	},
 	error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr.status);
             console.log(thrownError);

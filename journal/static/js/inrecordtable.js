@@ -15,6 +15,34 @@ function actorFormatter(value) {
     return value;
 }
 
+//Цвет в зависимости от дат контроля/исполнения
+function rowStyle(row, index) {
+    console.log(row, row.control_date, row.action_date);
+    var classes = ['active', 'success', 'info', 'warning', 'danger'];
+    if(row.control_date) {
+	cdate = new Date(row.control_date);
+	if(row.action_date) {
+	    adate = new Date(row.action_date);
+	    if(adate > cdate) {
+		return {classes: "danger"}
+	    }
+	    else {
+		return {classes: "success"}
+	    }
+	}
+	else {
+	    if(cdate >= new Date())
+	    {
+		return {classes: "info"}
+	    }
+	    return {classes: "danger"}
+	}
+        
+    }
+    
+    return {};
+}
+
 function refreshPageData() {
     $('#inRecTable').bootstrapTable('refresh');
     $('#deleteButton').prop('disabled', true);
