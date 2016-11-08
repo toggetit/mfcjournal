@@ -15,6 +15,11 @@ function actorFormatter(value) {
     return value;
 }
 
+function editFormatter(value) {
+    link = 'edit/in/' + value + '/';
+    return '<a href="' + link + '" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#editRecModal"></a>';
+}
+
 //Цвет в зависимости от дат контроля/исполнения
 function rowStyle(row, index) {
     console.log(row, row.control_date, row.action_date);
@@ -79,8 +84,6 @@ $('#inRecTable').bootstrapTable({
     }
 });
 
-
-
 $('#deleteButton').on('click', function(event) {
     arr = $('#inRecTable').bootstrapTable('getSelections');
     var pks = arr.map(function(item) {
@@ -140,3 +143,8 @@ function appointActor(act_pk) {
 	}
     });
 }
+
+// Чистим модальные окна по закрытию
+$('body').on('hidden.bs.modal', '.modal', function () {
+  $(this).removeData('bs.modal');
+});

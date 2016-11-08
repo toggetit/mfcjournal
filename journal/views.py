@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Org, Actor, InRecord, OutRecord
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 import json
-from .forms import NewInForm, markDoneForm
+from .forms import inRecForm, markDoneForm
 from datetime import date, datetime
 
 # Create your views here.
@@ -38,7 +38,7 @@ def jsonrequest(request, jsn='in'):
 def addnewin(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = NewInForm(request.POST)
+        form = inRecForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
             #Добавляем суффикс года
@@ -72,13 +72,47 @@ def addnewin(request):
                 prepared_nums.append(0)
             nextNumRec = max(prepared_nums)+1
         # Значение по-умолчанию для вх. док 
-        form = NewInForm(initial = {'rec_num': nextNumRec } )
+        form = inRecForm(initial = {'rec_num': nextNumRec } )
 
     return render(request, 'addnewin.html', { 'form': form, 'nums': list(nums) })
 
+def edit(request, editpk, typerec='in'):
+    if request.method == 'POST':
+        form = inRecForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            #Добавляем суффикс года
+            editData = form.cleaned_data
+            InRecord.objects.filter(pk = editpk).update(
+                rec_num = editData['rec_num'],
+                rec_org = editData['rec_org'],
+                out_num = editData['out_num'],
+                out_date = editData['out_date'],
+                rec_desc = editData['rec_desc'],
+                rec_actor = editData['rec_actor'],
+                control_date = editData['control_date'],
+                action_date = editData['action_date'],
+            )
+            return HttpResponseRedirect('/journal/')        
+        else:
+            # send back items
+            print(form.errors.items())
+    else:
+        editedItem = InRecord.objects.get(pk=editpk)
+        form = inRecForm(initial = { 'rec_num': editedItem.rec_num,
+                                     'rec_org': editedItem.rec_org,
+                                     'out_num': editedItem.out_num,
+                                     'out_date': editedItem.out_date,
+                                     'rec_desc': editedItem.rec_desc,
+                                     'rec_actor': editedItem.rec_actor,
+                                     'control_date': editedItem.control_date,
+                                     'rec_deal': editedItem.rec_deal,
+                                     'action_date': editedItem.action_date })
+        return render(request, 'editin.html', { 'form': form, 'pk': editpk })
+
 def delrec(request, typerec='in'):
     pks = json.loads(request.body.decode('utf-8'))['data']
-    print('Delete this records', pks)
+    #print('Delete this records', pks)
     InRecord.objects.filter(pk__in=pks).delete()
     return HttpResponse('null')
 
@@ -86,17 +120,17 @@ def checknum(request, typerec='in'):
     num = json.loads(request.body.decode('utf-8'))['data']
     print('received num:', num)
     if(InRecord.objects.filter(rec_num=num).exists()):
-        print('num exists')
+        #print('num exists')
         return JsonResponse( { 'data' : 'ERROR' } )
     else:
-        print('num is NOT exists')
-    return JsonResponse( { 'data' : 'OK' } )
+        #print('num is NOT exists')
+        return JsonResponse( { 'data' : 'OK' } )
 
 def appoint(request):
     if request.method == 'POST':
         recs = json.loads(request.body.decode('utf-8'))['data']
         actor = json.loads(request.body.decode('utf-8'))['actor']
-        print('received data:', recs, 'actor', actor)
+        #print('received data:', recs, 'actor', actor)
         
         InRecord.objects.filter(pk__in=recs).update(rec_actor=actor)
         
@@ -109,7 +143,7 @@ def markdone(request):
     if request.method == 'POST':
         recs = json.loads(request.body.decode('utf-8'))['data']
         doneDate = datetime.strptime(json.loads(request.body.decode('utf-8'))['doneDate'], '%d.%m.%Y')
-        print('received data:', recs, 'done date:', doneDate)
+        #print('received data:', recs, 'done date:', doneDate)
         
         InRecord.objects.filter(pk__in=recs).update(action_date = doneDate)
         

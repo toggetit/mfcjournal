@@ -1,7 +1,7 @@
 from django import forms
 from .models import InRecord, OutRecord, Org, Actor
 
-class NewInForm(forms.Form):
+class inRecForm(forms.Form):
     rec_num = forms.CharField(label='№ Вх. Док.', widget=forms.TextInput(attrs={'class': 'form-control', 'pattern': '\d+(-\d+)?'}), max_length=50)
     rec_org = forms.ModelChoiceField(queryset=Org.objects.all(), widget=forms.Select(attrs={'class':'form-control selectpicker', 'data-live-search': 'true' }), empty_label=None, label='Корреспондент')
     out_num = forms.CharField(label='№ исх. корреспондента', widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=50)

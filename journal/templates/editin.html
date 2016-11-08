@@ -19,20 +19,20 @@
 
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
-  <h4 class="modal-title">Добавить входящий документ</h4>
+  <h4 class="modal-title">Редактировать входящий документ</h4>
 </div>
 
 <div class="modal-body">
 
-  <form id="addNewIn" action="addnewin/" method="POST">
+  <form id="editIn" action="{% url 'edit_rec' typerec='in' editpk=pk %}" method="POST">
     {% csrf_token %}
     <div class="row">
       <div class="col-lg-4">
-	<div id="rec_num_grp" class="form-group has-feedback" id="rec_num_grp">	  
-	  <label class="control-label" for="rec_num">{{ form.rec_num.label }}</label>
-	  <div class = "input-group">
-	    <span class = "input-group-addon">{% now "y" %}/</span>
-	    {{ form.rec_num }}
+	<div id="rec_num_grp" class="form-group has-feedback" id="rec_num_grp">
+	  <!-- Ручная форма ввода для редактуры полного номера документа -->
+	  <label class="control-label" for="{{ form.rec_num.id_for_label }}">{{ form.rec_num.label }}</label>
+	  <div class = "input-group">	    
+	    <input class="form-control" id="{{ form.rec_num.id_for_label }}" maxlength="50" name="rec_num" pattern="\d{2}\/\d+(-\d+)?" type="text" value="{{ form.rec_num.value }}" required />
 	  </div>
 	  <!-- <span id="rec_num_gicon" class="glyphicon form-control-feedback"></span> -->
 	</div>
@@ -113,7 +113,7 @@
 </div>
 
 <div class="modal-footer">
-  <button id="submitBtn" type="submit" class="btn btn-primary" value="Добавить" form="addNewIn">Добавить</button>
+  <button id="submitBtn" type="submit" class="btn btn-primary" value="Сохранить" form="editIn">Сохранить</button>
   <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
 </div>
 	
@@ -122,12 +122,4 @@
 <script src={% static "js/bootstrap-datepicker.min.js" %}></script>
 <script src={% static "locales/bootstrap-datepicker.ru.min.js" %}></script>
 
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.ru.min.js"></script>
--->
-<script src={% static "js/newIn.js" %}></script>
-<!-- грязный хак, но я пока не знаю как сделать лучше -->
-<script>
-  var numarray = {{ nums }};
-  console.log(numarray);
-</script>
+<script src={% static "js/editin.js" %}></script>
