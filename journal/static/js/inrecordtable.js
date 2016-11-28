@@ -148,3 +148,31 @@ function appointActor(act_pk) {
 $('body').on('hidden.bs.modal', '.modal', function () {
   $(this).removeData('bs.modal');
 });
+
+//Сортировка для номеров входящих
+function getOrder() {
+    return $('inRecTable').bootstrapTable('getOptions').sortOrder 
+        === 'asc' ? -1 : 1;
+}
+
+function inRecSorter(a, b) {
+    if (!a) return -1 * getOrder();
+    if (!b) return 1 * getOrder();
+    aParse = a.match(/^(\d{2})\/(\d+)$/);
+    bParse = b.match(/^(\d{2})\/(\d+)$/);
+    if (parseInt(aParse[1]) < parseInt(bParse[1])) {
+	return -1;
+    }
+    if (parseInt(aParse[1]) > parseInt(bParse[1])) {
+	return 1;
+    }
+    else {
+	if (parseInt(aParse[2]) < parseInt(bParse[2])) {
+	    return -1;
+	}
+	if (parseInt(aParse[2]) > parseInt(bParse[2])) {
+	    return 1;
+	}
+	return 0;
+    }
+}
