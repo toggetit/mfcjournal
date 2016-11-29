@@ -51,13 +51,12 @@
 	<div class="container collapse navbar-collapse">
 	  <ul class="nav nav-tabs">
             <li class="active">
-	      <a data-toggle="tabajax" href="{% url 'intable' %}" data-target="#inJournal">Входящие</a>
+	      <a data-toggle="tabajax" href="{% url 'loadtable' 'in' %}" data-target="#inJournal">Входящие</a>
 	    </li>
             <li>
-	      <a data-toggle="tabajax" href="{% url 'add_new_in' %}" data-target="#outJournal">Исходящие</a>
-	      <!-- <a data-toggle="tab" href="#test">Исходящие</a> -->
+	      <a data-toggle="tabajax" href="{% url 'loadtable' 'out' %}" data-target="#outJournal">Исходящие</a>
 	    </li>
-<!--
+
 	    <button type="button" href="{% url 'add_new_in' %}" data-toggle="modal" data-target="#addRecModal" class="btn navbar-btn btn-success">Добавить</button>
 	    <button id="deleteButton" type="button" class="btn navbar-btn btn-danger" disabled>Удалить</button>
 	    
@@ -82,7 +81,7 @@
 		  <button id="searchButton" class="btn btn-default" type="button">Искать</button>
 		</span>
 	      </div>
-	    </form> -->
+	    </form>
 	  </ul>
 	</div> <!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->

@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'json/(?P<jsn>in|out)/$', views.jsonrequest),
 
     url(r'checknum/(?P<typerec>in|out)/$', views.checknum, name='check_num'),
-    url(r'table/in/$', TemplateView.as_view(template_name='injournal.html'), name='intable'),
+    url(r'table/(?P<typerec>in|out)/$', views.loadTableTemplate, name='loadtable'),
 
     
     url(r'delrec/(?P<typerec>in|out)/$', views.delrec, name='del_rec'),

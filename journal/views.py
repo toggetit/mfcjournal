@@ -152,3 +152,9 @@ def markdone(request):
         form = markDoneForm()
     
         return render(request, 'markdone.html', { 'form': form })
+
+def loadTableTemplate(request, typerec='in'):
+    if typerec == 'in':
+        return render(request, 'injournal.html')
+    elif typerec == 'out':
+        return render(request, 'outtable.html')
