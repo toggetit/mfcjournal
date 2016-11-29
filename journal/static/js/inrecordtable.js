@@ -22,7 +22,7 @@ function editFormatter(value) {
 
 //Цвет в зависимости от дат контроля/исполнения
 function rowStyle(row, index) {
-    console.log(row, row.control_date, row.action_date);
+    //console.log(row, row.control_date, row.action_date);
     var classes = ['active', 'success', 'info', 'warning', 'danger'];
     if(row.control_date) {
 	cdate = new Date(row.control_date);

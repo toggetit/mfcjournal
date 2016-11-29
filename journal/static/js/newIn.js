@@ -54,3 +54,7 @@ $('#id_rec_num').keydown(function(){
     timer = setTimeout(checkRecNum, 250);
 });
 
+$(document).ready(function() {
+    $('.selectpicker').selectpicker();
+});
+
