@@ -1,0 +1,50 @@
+{% load static %}
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal">&times;</button>
+  <h4 class="modal-title">Сотрудники</h4>
+</div>
+
+<div class="modal-body">
+
+
+</div>
+
+<div class="modal-footer">
+  <form class="form-horizontal" id="actorsForm" action="actors/" method="POST">
+    {% csrf_token %}
+
+    <div class="form-group">
+
+      <div class="col-md-4">
+	{{ form.act_surname }}
+      </div>
+
+      <div class="col-md-4">
+	{{ form.act_name }}
+      </div>
+
+      <div class="input-group col-md-4">
+        <span class="input-group-addon">
+	  {{ form.is_active }}
+        </span>
+	<label>Активен</label>
+      </div>
+
+    </div>
+
+    
+    <div class="form-group pull-right">
+      <button type="submit" class="btn btn-primary">Добавить</button>
+      <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+    </div>
+
+	
+  </form>
+  <!--
+  <button id="submitBtn" type="submit" class="btn btn-primary" value="Добавить" form="actorsForm">Добавить</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+-->
+</div>
+	
+<script src={% static "js/newIn.js" %}></script>

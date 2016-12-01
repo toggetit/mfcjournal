@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Org, Actor, InRecord, OutRecord
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 import json
-from .forms import inRecForm, markDoneForm
+from .forms import inRecForm, markDoneForm, actorsForm
 from datetime import date, datetime
 
 # Create your views here.
@@ -158,3 +158,30 @@ def loadTableTemplate(request, typerec='in'):
         return render(request, 'injournal.html')
     elif typerec == 'out':
         return render(request, 'outtable.html')
+
+
+def actors(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = inRecForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            #Добавляем суффикс года
+            newRec = InRecord(**form.cleaned_data)
+            newRec.rec_num = str(date.today().year)[2:] + '/' + newRec.rec_num
+            newRec.save()
+            # redirect to a new URL:
+            #return HttpResponse('OK')
+            return HttpResponseRedirect('/journal')        
+        else:
+            # send back items
+            print(form.errors.items())
+    else:
+        # Получаем номера документов, приводим их к int и выделяем из них последний
+        # такой геморрой нужен по 2 причинам:
+        # 1. Могут быть номера вида 123/1, 123-1
+        # 2. Таким образом получится резервировать номера        
+        actors = Actor.objects.all()
+        form = actorsForm()
+
+    return render(request, 'actors.html', { 'form': form })

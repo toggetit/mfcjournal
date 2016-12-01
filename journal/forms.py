@@ -16,3 +16,8 @@ class markDoneForm(forms.Form):
     rec_actor = forms.ModelChoiceField(queryset=Actor.objects.filter(is_active=True), widget=forms.Select(attrs={'class':'form-control selectpicker'}), empty_label="б/и", label='Исполнитель', required=False)    
     control_date = forms.DateField(label='Дата исполнения', widget=forms.DateInput(attrs={'class': 'form-control'}), required=False)
     action_date = forms.DateField(label='Исполнено', widget=forms.DateInput(attrs={'class': 'form-control'}), required=False)
+
+class actorsForm(forms.Form):
+    act_name = forms.CharField(label='Имя', max_length=200)
+    act_surname = forms.CharField(label='Фамилия', max_length=200)
+    is_active = forms.BooleanField(label='активен')
