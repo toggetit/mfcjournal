@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
   <h2 class="text-center">Журнал входящей документации</h2>
-  <table id="inRecTable" data-toggle="table" data-url="journal/json/in/" data-sort-name="rec_num" data-row-style="rowStyle" data-sort-order="desc" data-locale="ru-RU">
+  <table id="inRecTable" data-toggle="table" data-url="{% url 'json' 'in' %}" data-sort-name="rec_num" data-row-style="rowStyle" data-sort-order="desc" data-locale="ru-RU">
     <thead>
       <tr>
 	<th data-field="state" data-checkbox="true"></th>

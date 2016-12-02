@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Org, Actor, InRecord, OutRecord
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.core import serializers
 import json
 from .forms import inRecForm, markDoneForm, actorsForm
 from datetime import date, datetime
@@ -32,6 +33,17 @@ def jsonrequest(request, jsn='in'):
         
     elif jsn == 'out':
         recs = OutRecord.objects.all()
+
+    elif jsn == 'act':
+        recs = Actor.objects.all()
+        data = [
+            {
+                'pk' : rec.pk,
+                'name' : rec.name,
+                'surname' : rec.surname,
+                'is_active' : rec.is_active,
+            }            
+            for rec in recs ]
     
     return JsonResponse( { 'data': data } )
 

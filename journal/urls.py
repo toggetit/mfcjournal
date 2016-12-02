@@ -7,7 +7,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.journal, name='journal'),
-    url(r'json/(?P<jsn>in|out)/$', views.jsonrequest),
+    url(r'json/(?P<jsn>in|out|act|org)/$', views.jsonrequest, name='json'),
 
     
     url(r'table/(?P<typerec>in|out)/$', views.loadTableTemplate, name='loadtable'),
