@@ -91,24 +91,38 @@ def addnewin(request):
 def edit(request, editpk, typerec='in'):
     if request.method == 'POST':
         form = inRecForm(request.POST)
-        # check whether it's valid:
         if form.is_valid():
-            #Добавляем суффикс года
-            editData = form.cleaned_data
-            InRecord.objects.filter(pk = editpk).update(
-                rec_num = editData['rec_num'],
-                rec_org = editData['rec_org'],
-                out_num = editData['out_num'],
-                out_date = editData['out_date'],
-                rec_desc = editData['rec_desc'],
-                rec_actor = editData['rec_actor'],
-                control_date = editData['control_date'],
-                action_date = editData['action_date'],
-            )
-            return HttpResponseRedirect('/journal/')        
+            #Редактируем inRecord
+            if typerec == 'in':
+                # check whether it's valid:
+            
+                #Добавляем суффикс года
+                editData = form.cleaned_data
+                InRecord.objects.filter(pk = editpk).update(
+                    rec_num = editData['rec_num'],
+                    rec_org = editData['rec_org'],
+                    out_num = editData['out_num'],
+                    out_date = editData['out_date'],
+                    rec_desc = editData['rec_desc'],
+                    rec_actor = editData['rec_actor'],
+                    control_date = editData['control_date'],
+                    action_date = editData['action_date'],
+                )
+                return HttpResponseRedirect('/journal/')
+
+            #Редактируем сотрудника
+            elif typerec == 'act':
+                print('Редактируем сотрудника', form.cleaned_data['surname'], form.cleaned_data['name'], form.cleaned_data['pk'])                
+                editRec = Actor.objects.filter(pk = form.cleaned_data['pk']).update(                    
+                    name = form.cleaned_data['name'],
+                    surname = form.cleaned_data['surname'],
+                    is_active = form.cleaned_data['is_active']
+                )
+                return HttpResponseRedirect('/journal/')
         else:
             # send back items
             print(form.errors.items())
+        
     else:
         editedItem = InRecord.objects.get(pk=editpk)
         form = inRecForm(initial = { 'rec_num': editedItem.rec_num,
@@ -123,9 +137,10 @@ def edit(request, editpk, typerec='in'):
         return render(request, 'editin.html', { 'form': form, 'pk': editpk })
 
 def delrec(request, typerec='in'):
-    pks = json.loads(request.body.decode('utf-8'))['data']
-    #print('Delete this records', pks)
-    InRecord.objects.filter(pk__in=pks).delete()
+    if typerec == 'in':
+        pks = json.loads(request.body.decode('utf-8'))['data']
+        print('Delete this records:', typerec, pks)
+        InRecord.objects.filter(pk__in=pks).delete()
     return HttpResponse('null')
 
 def checknum(request, typerec='in'):

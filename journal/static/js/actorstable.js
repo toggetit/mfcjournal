@@ -17,12 +17,12 @@ $('#actorsTable').bootstrapTable({
 
     // Ниже сделать посылалку чек/анчеков на сервер сразу
     onCheck: function (row, $element) {
-	console.log("checked");
-	//console.log("Checked row", row.surname, row.name, row.pk);
 
-	/*
+	console.log("Checked row", row.surname, row.name, row.pk);
+
+	
 	event.preventDefault(); // To prevent following the link (optional)
-	console.log('markdone called');
+
 	arr = $('#inRecTable').bootstrapTable('getSelections');
 	var pks = arr.map(function(item) {
 	    return item.pk;
@@ -64,3 +64,4 @@ $('#actorsTable').bootstrapTable({
 	console.log("Unchecked All");
     }
 });
+
