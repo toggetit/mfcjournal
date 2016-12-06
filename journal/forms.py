@@ -18,6 +18,7 @@ class markDoneForm(forms.Form):
     action_date = forms.DateField(label='Исполнено', widget=forms.DateInput(attrs={'class': 'form-control'}), required=False)
 
 class actorsForm(forms.Form):
-    act_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}), max_length=200)
-    act_surname = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}), max_length=200)
+    name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'}), max_length=200)
+    surname = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}), max_length=200)
     is_active = forms.BooleanField(label='активен', required=False)
+    pk = forms.IntegerField(widget = forms.HiddenInput(), required = False)

@@ -175,15 +175,28 @@ def loadTableTemplate(request, typerec='in'):
 def actors(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = inRecForm(request.POST)
+        form = actorsForm(request.POST)
+        
         # check whether it's valid:
         if form.is_valid():
-            #Добавляем суффикс года
-            newRec = InRecord(**form.cleaned_data)
-            newRec.rec_num = str(date.today().year)[2:] + '/' + newRec.rec_num
-            newRec.save()
-            # redirect to a new URL:
-            #return HttpResponse('OK')
+            print("Полученный pk сотрудника", form.cleaned_data['pk'])
+            if form.cleaned_data['pk'] is None:
+                #debug
+                print("Добавляем нового сотрудника", form.cleaned_data['surname'], form.cleaned_data['name'])
+                
+                newRec = Actor(**form.cleaned_data)
+                newRec.save()
+            else:
+                #debug
+                print('Редактируем сотрудника', form.cleaned_data['surname'], form.cleaned_data['name'], form.cleaned_data['pk'])
+                
+                editRec = Actor.objects.filter(pk = form.cleaned_data['pk']).update(
+                    
+                    name = form.cleaned_data['name'],
+                    surname = form.cleaned_data['surname'],
+                    is_active = form.cleaned_data['is_active']
+            )
+
             return HttpResponseRedirect('/journal')        
         else:
             # send back items
@@ -193,7 +206,6 @@ def actors(request):
         # такой геморрой нужен по 2 причинам:
         # 1. Могут быть номера вида 123/1, 123-1
         # 2. Таким образом получится резервировать номера        
-        actors = Actor.objects.all()
         form = actorsForm()
 
     return render(request, 'actors.html', { 'form': form })
