@@ -3,7 +3,7 @@ from .models import Org, Actor, InRecord, OutRecord
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.core import serializers
 import json
-from .forms import inRecForm, markDoneForm, actorsForm
+from .forms import inRecForm, markDoneForm, actorsForm, orgsForm
 from datetime import date, datetime
 
 # Create your views here.
@@ -44,7 +44,10 @@ def jsonrequest(request, jsn='in'):
                 'is_active' : rec.is_active,
             }            
             for rec in recs ]
-    
+
+    elif jsn == 'orgs':
+        recs = Org.objects.all()
+        
     return JsonResponse( { 'data': data } )
 
 def addnewin(request):
@@ -88,14 +91,19 @@ def addnewin(request):
 
     return render(request, 'addnewin.html', { 'form': form, 'nums': list(nums) })
 
-def edit(request, editpk, typerec='in'):
+def edit(request, editpk=0, typerec='in'):
+    '''
+    if not editpk:
+        print('not edit pk')
+        return HttpResponseRedirect('/journal/')
+    '''
+    
     if request.method == 'POST':
-        form = inRecForm(request.POST)
-        if form.is_valid():
-            #Редактируем inRecord
-            if typerec == 'in':
-                # check whether it's valid:
-            
+        print('typerec is:', typerec)
+        #Редактируем inRecord
+        if typerec == 'in':
+            form = inRecForm(request.POST)
+            if form.is_valid():                                        
                 #Добавляем суффикс года
                 editData = form.cleaned_data
                 InRecord.objects.filter(pk = editpk).update(
@@ -109,19 +117,32 @@ def edit(request, editpk, typerec='in'):
                     action_date = editData['action_date'],
                 )
                 return HttpResponseRedirect('/journal/')
-
+            else:
+                print(form.errors.items())
             #Редактируем сотрудника
-            elif typerec == 'act':
-                print('Редактируем сотрудника', form.cleaned_data['surname'], form.cleaned_data['name'], form.cleaned_data['pk'])                
-                editRec = Actor.objects.filter(pk = form.cleaned_data['pk']).update(                    
-                    name = form.cleaned_data['name'],
-                    surname = form.cleaned_data['surname'],
-                    is_active = form.cleaned_data['is_active']
-                )
+        elif typerec == 'act':
+            form = actorsForm(request.POST)
+            if form.is_valid():
+                # Новый хлопец
+                if form.cleaned_data['pk'] is not None:
+                    print('Редактируем сотрудника', form.cleaned_data['surname'], form.cleaned_data['name'], form.cleaned_data['pk'])
+                    editRec = Actor.objects.filter(pk = form.cleaned_data['pk']).update(                    
+                        name = form.cleaned_data['name'],
+                        surname = form.cleaned_data['surname'],
+                        is_active = form.cleaned_data['is_active']
+                    )
+                else:
+                    # редактируем старого хлопца
+                    print("Добавляем нового сотрудника", form.cleaned_data['surname'], form.cleaned_data['name'])
+                
+                    newRec = Actor(**form.cleaned_data)
+                    newRec.save()
                 return HttpResponseRedirect('/journal/')
+            else:
+                print(form.errors.items())
         else:
             # send back items
-            print(form.errors.items())
+            print('typerec is:', typerec)
         
     else:
         editedItem = InRecord.objects.get(pk=editpk)
@@ -188,39 +209,13 @@ def loadTableTemplate(request, typerec='in'):
 
 
 def actors(request):
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = actorsForm(request.POST)
-        
-        # check whether it's valid:
-        if form.is_valid():
-            print("Полученный pk сотрудника", form.cleaned_data['pk'])
-            if form.cleaned_data['pk'] is None:
-                #debug
-                print("Добавляем нового сотрудника", form.cleaned_data['surname'], form.cleaned_data['name'])
-                
-                newRec = Actor(**form.cleaned_data)
-                newRec.save()
-            else:
-                #debug
-                print('Редактируем сотрудника', form.cleaned_data['surname'], form.cleaned_data['name'], form.cleaned_data['pk'])
-                
-                editRec = Actor.objects.filter(pk = form.cleaned_data['pk']).update(
-                    
-                    name = form.cleaned_data['name'],
-                    surname = form.cleaned_data['surname'],
-                    is_active = form.cleaned_data['is_active']
-            )
 
-            return HttpResponseRedirect('/journal')        
-        else:
-            # send back items
-            print(form.errors.items())
-    else:
-        # Получаем номера документов, приводим их к int и выделяем из них последний
-        # такой геморрой нужен по 2 причинам:
-        # 1. Могут быть номера вида 123/1, 123-1
-        # 2. Таким образом получится резервировать номера        
-        form = actorsForm()
+    form = actorsForm()
 
     return render(request, 'actors.html', { 'form': form })
+
+def orgs(request):
+
+    form = orgsForm()
+
+    return render(request, 'organizations.html', { 'form': form })

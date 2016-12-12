@@ -22,3 +22,7 @@ class actorsForm(forms.Form):
     surname = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}), max_length=200)
     is_active = forms.BooleanField(label='активен', required=False)
     pk = forms.IntegerField(widget = forms.HiddenInput(), required = False)
+
+class orgsForm(forms.Form):
+    org_name = forms.CharField(label='Название организации', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Название организации'}), max_length=200)
+    pk = forms.IntegerField(widget = forms.HiddenInput(), required = False)

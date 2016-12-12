@@ -6,11 +6,9 @@ $('body').on('hidden.bs.modal', '.modal', function () {
 $('#actorsTable').bootstrapTable({
     onClickRow: function (row, $element, field) {
 
-	console.log("Clicked row:", row.surname, row.name, row.pk);
+	console.log("Clicked row:", row.org_name, row.pk);
 	
-	$('#id_name').val(row.name);
-	$('#id_surname').val(row.surname);
-	$('#id_is_active').prop('checked', row.is_active);
+	$('#id_name').val(row.org_name);
 	$('#id_pk').val(row.pk);	
 	
     },
@@ -20,10 +18,10 @@ $('#actorsTable').bootstrapTable({
 
 	console.log("Checked row", row.surname, row.name, row.pk);
 
-	var jsoned = { data: { 'name': row.name, 'surname': row.surname, 'is_active': row.is_active, 'pk': row.pk } };
+	var jsoned = { data: { 'org_name': row.org_name, 'pk': row.pk } };
 	var jsondata = JSON.stringify(jsoned);
 	console.log(jsondata);
-	/*
+	
 	var csrftoken = getCookie('csrftoken');
 	$.ajaxSetup({
 	    beforeSend: function(xhr, settings) {
@@ -34,7 +32,7 @@ $('#actorsTable').bootstrapTable({
 	});
 	$.ajax({
 	    type: "POST",
-	    url: "/journal/markdone/",
+	    url: "/journal//",
 	    data: jsondata,
 	    dataType: 'json',
 	    success: function() {
