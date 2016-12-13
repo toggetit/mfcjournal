@@ -8,7 +8,7 @@ from datetime import date, datetime
 
 # Create your views here.
 def journal(request):
-    InRecs = InRecord.objects.all()
+    #InRecs = InRecord.objects.all()
     actors = Actor.objects.filter(is_active = True)
     return render(request, 'journal.html', { 'actors': actors })
 
@@ -238,7 +238,7 @@ def markdone(request):
 
 def loadTableTemplate(request, typerec='in'):
     if typerec == 'in':
-        return render(request, 'injournal.html')
+        return render(request, 'intable.html')
     elif typerec == 'out':
         return render(request, 'outtable.html')
 
