@@ -17,7 +17,7 @@
   <!-- Таблица сотрудников -->
   <div class="container-fluid">
 
-    <table id="actorsTable" data-toggle="table" data-url="{% url 'json' 'act' %}" data-sort-name="surname" data-locale="ru-RU">
+    <table id="actorsTable" data-toggle="table" data-url="{% url 'json' 'act' %}" data-sort-name="surname" data-checkbox-header="false" data-locale="ru-RU">
       <thead>
 	<tr>
 	  <th data-field="pk" data-visible="false"></th>
@@ -34,7 +34,7 @@
 
 <div class="modal-footer">
   <!-- Форма доб. сотрудников -->
-  <form class="form-horizontal" id="actorsForm" action="{% url 'edit_rec' 'act' %}" method="POST">
+  <form class="form-horizontal" id="actorsForm" action="{% url 'edit_rec_act' %}" method="POST">
     {% csrf_token %}
 
     <div class="form-group">

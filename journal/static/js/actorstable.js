@@ -3,6 +3,34 @@ $('body').on('hidden.bs.modal', '.modal', function () {
   $(this).removeData('bs.modal');
 });
 
+function editCheckedActor(row) {
+    
+    console.log("Checked row", row.surname, row.name, row.pk);
+
+    var jsoned = { data: { 'name': row.name, 'surname': row.surname, 'is_active': row.is_active, 'pk': row.pk } };
+    var jsondata = JSON.stringify(jsoned);
+    console.log(jsondata);
+    
+    var csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({
+	beforeSend: function(xhr, settings) {
+	    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		xhr.setRequestHeader("X-CSRFToken", csrftoken);
+	    }
+	}
+    });
+    $.ajax({
+	type: "POST",
+	url: "/journal/edit/act/" + row.pk + "/",
+	data: jsondata,
+	dataType: 'json',
+	error: function (xhr, ajaxOptions, thrownError) {
+	    console.log(xhr.status);
+	    console.log(thrownError);
+	}
+    });
+}
+
 $('#actorsTable').bootstrapTable({
     onClickRow: function (row, $element, field) {
 
@@ -16,41 +44,8 @@ $('#actorsTable').bootstrapTable({
     },
 
     // Ниже сделать посылалку чек/анчеков на сервер сразу
-    onCheck: function (row, $element) {
-
-	console.log("Checked row", row.surname, row.name, row.pk);
-
-	var jsoned = { data: { 'name': row.name, 'surname': row.surname, 'is_active': row.is_active, 'pk': row.pk } };
-	var jsondata = JSON.stringify(jsoned);
-	console.log(jsondata);
-	/*
-	var csrftoken = getCookie('csrftoken');
-	$.ajaxSetup({
-	    beforeSend: function(xhr, settings) {
-		if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-		    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-		}
-	    }
-	});
-	$.ajax({
-	    type: "POST",
-	    url: "/journal/markdone/",
-	    data: jsondata,
-	    dataType: 'json',
-	    success: function() {
-		$('#markDoneModal').modal('hide');
-		refreshPageData();
-	    },
-	    error: function (xhr, ajaxOptions, thrownError) {
-		console.log(xhr.status);
-		console.log(thrownError);
-	    }
-	});
-	*/
-    },
-    onUncheck: function (row, $element) {
-	console.log("Unchecked");
-    },
+    onCheck: editCheckedActor,
+    onUncheck: editCheckedActor,
     onCheckAll: function (rows) {
 	console.log("Checked All");
     },

@@ -17,7 +17,7 @@
   <!-- Таблица организация -->
   <div class="container-fluid">
 
-    <table id="actorsTable" data-toggle="table" data-url="{% url 'json' 'org' %}" data-sort-name="org_name" data-locale="ru-RU">
+    <table id="orgTable" data-toggle="table" data-url="{% url 'json' 'org' %}" data-sort-name="org_name" data-locale="ru-RU">
       <thead>
 	<tr>
 	  <th data-field="pk" data-visible="false"></th>
@@ -32,21 +32,15 @@
 
 <div class="modal-footer">
   <!-- Форма доб. сотрудников -->
-  <form class="form-horizontal" id="orgsForm" action="{% url 'edit_rec' 'org' %}" method="POST">
+  <form class="form-horizontal" id="orgsForm" action="{% url 'edit_rec_org' %}" method="POST">
     {% csrf_token %}
+    {{ form.pk }}
 
     <div class="form-group">
-
-      <div class="col-md-5">
+      <div class="col-md-6">
 	{{ form.org_name }}
       </div>
-
-      {{ form.pk }}
-
-    </div>
-
-    <div class="form-group">
-      <div class="col-md-offset-6 col-md-2">
+      <div class="col-md-2"> 
 	<button type="reset" class="btn btn-info">Очистить</button>
       </div>      
       <div class="col-md-2">

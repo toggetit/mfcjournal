@@ -45,8 +45,14 @@ def jsonrequest(request, jsn='in'):
             }            
             for rec in recs ]
 
-    elif jsn == 'orgs':
+    elif jsn == 'org':
         recs = Org.objects.all()
+        data = [
+            {
+                'org_name': rec.org_name,
+                'pk': rec.pk
+            }            
+            for rec in recs ]
         
     return JsonResponse( { 'data': data } )
 
@@ -119,8 +125,16 @@ def edit(request, editpk=0, typerec='in'):
                 return HttpResponseRedirect('/journal/')
             else:
                 print(form.errors.items())
-            #Редактируем сотрудника
+        #Редактируем сотрудника
         elif typerec == 'act':
+
+            #if is_active was checked
+            if editpk is not 0:
+                actor = json.loads(request.body.decode('utf-8'))['data']
+                Actor.objects.filter(pk=actor['pk']).update(is_active=actor['is_active'])        
+                return JsonResponse( { 'data': 'ok' })
+            
+            #или если вводили форму            
             form = actorsForm(request.POST)
             if form.is_valid():
                 # Новый хлопец
@@ -140,6 +154,27 @@ def edit(request, editpk=0, typerec='in'):
                 return HttpResponseRedirect('/journal/')
             else:
                 print(form.errors.items())
+                
+        #Редактируем организацию
+        elif typerec == 'org':            
+            form = orgsForm(request.POST)
+            if form.is_valid():
+                # редактируем существующюю организацию
+                if form.cleaned_data['pk'] is not None:
+                    print('Редактируем организацию', form.cleaned_data['org_name'], form.cleaned_data['pk'])
+                    editRec = Org.objects.filter(pk = form.cleaned_data['pk']).update(                    
+                        org_name = form.cleaned_data['org_name']
+                    )
+                else:
+                    # Новая организация                    
+                    print("Добавляем организацию", form.cleaned_data['org_name'])
+                
+                    newRec = Org(**form.cleaned_data)
+                    newRec.save()
+                return HttpResponseRedirect('/journal/')
+            else:
+                print(form.errors.items())
+        
         else:
             # send back items
             print('typerec is:', typerec)

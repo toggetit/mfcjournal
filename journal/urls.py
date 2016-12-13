@@ -7,9 +7,9 @@ from . import views
 
 
 edit_patterns = [
-    url(r'^(?P<typerec>in|out)/(?P<editpk>[0-9]+)/$', views.edit, name='edit_rec'),
-    url(r'^act/$', views.edit, {'typerec': 'act', 'editpk': 0}, name='edit_rec' ),
-    url(r'^org/$', views.edit, {'typerec': 'org', 'editpk': 0}, name='edit_rec' )
+    url(r'^(?P<typerec>in|out|act)/(?P<editpk>[0-9]+)/$', views.edit, name='edit_rec'),
+    url(r'^act/$', views.edit, {'typerec': 'act', 'editpk': 0}, name='edit_rec_act' ),
+    url(r'^org/$', views.edit, {'typerec': 'org', 'editpk': 0}, name='edit_rec_org' )
 ]
 
 
