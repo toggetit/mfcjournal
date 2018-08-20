@@ -27,4 +27,4 @@ class orgsForm(forms.Form):
     org_name = forms.CharField(label='Название организации', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Название организации'}), max_length=200)
     pk = forms.IntegerField(widget = forms.HiddenInput(), required = False)
 
-#test
+#test2
